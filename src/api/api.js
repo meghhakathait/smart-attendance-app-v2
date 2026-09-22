@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://smart-attendance-app-backend-77kh.onrender.com/api",
   timeout: 5000,
   headers: { "Content-Type": "application/json" },
 });
