@@ -68,7 +68,7 @@ const AppRouter = () => {
         <Route path="mark-attendance" element={<MarkAttendance />}></Route>
       </Route>
       <Route
-        path="/attend/:token"
+        path="/attend/:tokenid"
         element={
           <ProtectedRoute role="student">
             <MarkAttendance />
