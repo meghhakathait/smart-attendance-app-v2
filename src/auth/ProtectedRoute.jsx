@@ -1,15 +1,22 @@
 import React, { useContext } from "react";
 import AuthContext from "./AuthContext";
-import { Navigate } from "react-router";
+import { Navigate, replace, useLocation } from "react-router";
 
 const ProtectedRoute = ({ children, role }) => {
-  const { user } = useContext(AuthContext);
+  const { user, isLoggingOut } = useContext(AuthContext);
+  const location = useLocation();
 
   if (!user) {
-    return <Navigate to="/" />;
+    return (
+      <Navigate
+        to="/"
+        state={isLoggingOut.current ? { loggedOut: true } : { from: location }}
+        replace
+      />
+    );
   }
   if (user.role !== role) {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
   return children;
 };

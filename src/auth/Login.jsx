@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CustomInput from "../components/form/CustomInput";
 import Button from "../components/form/Button";
 import { api } from "../api/api";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import AuthContext from "./AuthContext";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContext);
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const from = location.state?.loggedOut
+    ? "/"
+    : location.state?.from?.pathname || "/";
+
   const [formData, setFormData] = useState(null);
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -15,22 +23,21 @@ const Login = () => {
     }));
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const response = await api.post("/auth/login", formData);
-      localStorage.setItem("saatoken", response.data.token);
-      localStorage.setItem("saauser", JSON.stringify(response.data.user));
-      navigate("/admin");
-    } catch (error) {
-      console.log(error);
-    }
+      const user = await loginUser(formData);
+      if (from !== "/") {
+        navigate(from, { replace: true });
+      } else {
+        navigate(`/${user.role}`); // /admin, /teacher, /student
+      }
+    } catch (error) {}
   };
 
   return (
     <>
       <h1 className="text-3xl font-bold mb-8">Login</h1>
-      <form>
+      <div>
         <CustomInput
           name="email"
           label="Email"
@@ -50,7 +57,7 @@ const Login = () => {
         <Button icon="key-round" onClick={handleLogin}>
           Login
         </Button>
-      </form>
+      </div>
     </>
   );
 };

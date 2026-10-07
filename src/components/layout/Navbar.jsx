@@ -12,7 +12,7 @@ const Navbar = ({ routes }) => {
       <Container>
         <div className="flex justify-between items-center">
           <div className="text-2xl">Smart Attendance App</div>
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
             {routes.map((route) => (
               <CustomNavLink key={route.text} to={route.url} icon={route.icon}>
                 {route.text}
