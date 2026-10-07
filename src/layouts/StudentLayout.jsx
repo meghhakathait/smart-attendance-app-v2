@@ -7,6 +7,7 @@ const StudentLayout = () => {
   const routes = [
     { url: "/student", icon: "gauge", text: "Dashboard" },
     { url: "/student/mark-attendance", icon: "users", text: "Mark Attendance" },
+    { url: "/student/my-leaves", icon: "clipboard", text: "My Leaves" },
     { url: "/student/my-attendance", icon: "list", text: "My Attendance" },
   ];
   return (
